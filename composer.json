@@ -1,44 +1,30 @@
 {
     "name": "holoo/module_generator",
-    "description": "simple mobile authentication for laravel framework",
-    "homepages": "https://github.com/",
+    "description": "Implementing a Like system for Laravel's Eloquent models.",
     "license": "MIT",
+    "keywords": ["Laravel", "Eloquent", "Laravel-Likeable", "Laravel Likeable"],
     "authors": [
         {
-            "name": "amin",
-            "email": "aminsaki69@gmail.com",
-            "role": "company"
+            "name": "amin saki",
+            "email": "aminsaki69@gmail.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
-        "php": ">=7.2",
-        "illuminate/support": ">=6",
-        "doctrine/dbal": "2.*"
+
     },
-    "require-dev": {
-        "phpunit/phpunit": "^8"
-    },
-    "auttoload": {
+    "autoload": {
         "psr-4": {
-            "Holoo\\ModuleGenerator\\": "src"
+            "Holoo\\ModuleGenerator\\": "src/"
         }
     },
-    "auttoload-dev": {
-        "Holoo\\ModuleGenerator\\": "tests"
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "scripts": {
-        "test": "vendor/bin/phpunit",
-        "text-coverage": "vendor/bin/phpunit --coverage-html coverage"
-    },
+
     "extra": {
         "laravel": {
             "providers": [
                 "Holoo\\ModuleGenerator\\ServiceProvider\\ModuleGeneratorServiceProvider"
             ]
-
         }
     }
+
 }
