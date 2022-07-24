@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Modules\{{modelName}}\Http\Repositories;
+
+interface {{modelNamePluralLowerCase}}RepositoryInterface
+{
+    public function getAll();
+    public function getById($id);
+    public function create(array $data);
+    public function delete($id):void;
+    public function update($data):void;
+}

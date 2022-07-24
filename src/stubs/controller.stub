@@ -1,0 +1,51 @@
+<?php
+namespace App\Modules\{{modelNamePluralLowerCase}}\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use App\Modules\{{modelNamePluralLowerCase}}\Http\Repositories\{{modelName}}RepositoryInterface;
+use App\Modules\{{modelNamePluralLowerCase}}\Http\Requests\{{modelName}}Request;
+
+class {{modelName}}Controller extends Controller
+{
+    private ${{modelName}}Repository;
+
+    public function __construct({{modelName}}RepositoryInterface  ${{modelName}}Repository)
+    {
+        $this->{{modelName}}Repository = ${{modelName}}Repository;
+    }
+
+    public function index()
+    {
+        ${{modelNamePluralLowerCase}} =$this->{{modelName}}Repository->getAll();
+
+        return response()->json(${{modelNamePluralLowerCase}});
+    }
+
+    public function store({{modelName}}Request $request)
+    {
+        ${{modelNameSingularLowerCase}} = $this->{{modelName}}Repository->create($request->all());
+
+        return response()->json(${{modelNameSingularLowerCase}}, 201);
+    }
+
+    public function show($id)
+    {
+        ${{modelNameSingularLowerCase}} = $this->{{modelName}}Repository->getById($id);
+
+        return response()->json(${{modelNameSingularLowerCase}});
+    }
+
+    public function update({{modelName}}Request $request)
+    {
+        $this->{{modelName}}Repository->update($request->all());
+
+        return response()->json('', 200);
+    }
+
+    public function destroy($id)
+    {
+        $this->{{modelName}}Repository->delete($id);
+
+        return response()->json(null, 204);
+    }
+}

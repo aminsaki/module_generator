@@ -2,6 +2,7 @@
 
 namespace Holoo\ModuleGenerator\ServiceProvider;
 
+use Holoo\ModuleGenerator\Command\BaseRepositories;
 use Holoo\ModuleGenerator\Command\CrudGenerator;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,8 +15,8 @@ class ModuleGeneratorServiceProvider extends  ServiceProvider
      */
     public function register()
     {
-    }
 
+    }
     /**
      * Bootstrap any application services.
      *
@@ -23,11 +24,11 @@ class ModuleGeneratorServiceProvider extends  ServiceProvider
      */
     public function boot()
     {
-//        if(app()->runningInConsole()) {
-//            $this->commands([
-//                CrudGenerator::class
-//            ]);
-//        }
+        if(app()->runningInConsole()) {
+            $this->commands([
+                CrudGenerator::class,
+            ]);
+        }
     }
 
 

@@ -5,7 +5,6 @@ namespace Holoo\ModuleGenerator\Command;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use phpDocumentor\Reflection\Types\String_;
 
 class CrudGenerator extends Command
 {
@@ -30,31 +29,38 @@ class CrudGenerator extends Command
         $this->eloquentRepository($name);
         $this->request($name);
         $this->route($name);
+        $this->providers($name);
+        $this->AppServiceProvider($name);
+        if ( !file_exists($path=app_path("Modules/bases")) ) {
+            $this->BaseServiceProvider($name);
+            $this->BaseRepositoryInterface($name);
+            $this->BaseRepository($name);
+        }
     }
+
 
     /**
      * @param $name
      */
     protected function migration($name)
     {
+        $nameClass=ucwords($name);
         $migrationTemplate=str_replace(
             [
                 '{{modelName}}',
                 '{{modelNamePluralLowerCase}}',
             ],
             [
-                $name,
+                $nameClass,
                 strtolower(Str::plural($name)),
             ],
             $this->getStub('Migration')
         );
         $tableName=date('Y_m_d_His') . '_' . 'create' . '_' . strtolower(Str::plural($name)) . '_' . 'table.php';
 
-        if ( !file_exists($path=app_path("Modules/{$name}/database/migrations/")) )
-            $this->getMakeDirectory($path);
-
-        file_put_contents(app_path("Modules/{$name}/database/migrations/") . $tableName, $migrationTemplate);
-
+        $this->FilePutContents(
+            "Modules/{$name}/database/migrations/",
+            "Modules/{$name}/database/migrations/" . $tableName, $migrationTemplate);
     }
 
     /**
@@ -62,6 +68,7 @@ class CrudGenerator extends Command
      */
     protected function controller($name)
     {
+        $nameClass=ucwords($name);
         $controllerTemplate=str_replace(
             [
                 '{{modelName}}',
@@ -69,16 +76,14 @@ class CrudGenerator extends Command
                 '{{modelNameSingularLowerCase}}'
             ],
             [
+                $nameClass,
                 $name,
-                strtolower(Str::plural($name)),
                 strtolower($name)
             ],
             $this->getStub('Controller')
         );
-        if ( !file_exists($path=app_path("Modules/{$name}/Http/Controllers")) )
-            $this->getMakeDirectory($path);
-
-        file_put_contents(app_path("Modules/{$name}/Http/Controllers/{$name}Controller.php"), $controllerTemplate);
+        $this->FilePutContents("Modules/{$name}/Http/Controllers",
+            "Modules/{$name}/Http/Controllers/{$nameClass}Controller.php", $controllerTemplate);
     }
 
     /**
@@ -86,15 +91,22 @@ class CrudGenerator extends Command
      */
     protected function model($name)
     {
+        $nameClass=ucwords($name);
         $modelTemplate=str_replace(
-            ['{{modelName}}'],
-            [$name],
-            $this->getStub('Model')
-        );
-        if ( !file_exists($path=app_path("Modules/{$name}/Models")) )
-            $this->getMakeDirectory($path);
+            [
+                '{{modelName}}',
+                '{{modelNamePluralLowerCase}}',
 
-        file_put_contents(app_path("Modules/{$name}/Models/{$name}.php"), $modelTemplate);
+            ],
+            [
+                $nameClass,
+                $name
+            ],
+            $this->getStub('Model')
+
+        );
+        $this->FilePutContents("Modules/{$name}/Models",
+            "Modules/{$name}/Models/{$nameClass}.php", $modelTemplate);
     }
 
     /**
@@ -102,16 +114,21 @@ class CrudGenerator extends Command
      */
     protected function repositoryInterface($name)
     {
+        $nameClass=ucwords($name);
         $repositoryInterfaceTemplate=str_replace(
-            ['{{modelName}}'],
-            [$name],
+            [
+                '{{modelName}}',
+                '{{modelNamePluralLowerCase}}',
+            ],
+            [
+                $nameClass,
+                $name
+            ],
             $this->getStub('RepositoryInterface')
         );
 
-        if ( !file_exists($path=app_path("Modules/{$name}/Http/Repositories/$name")) )
-            $this->getMakeDirectory($path);
-
-        file_put_contents(app_path("Modules/{$name}/Http/Repositories/$name/{$name}RepositoryInterface.php"), $repositoryInterfaceTemplate);
+        $this->FilePutContents("Modules/{$name}/Http/Repositories",
+            "Modules/{$name}/Http/Repositories/{$name}RepositoryInterface.php", $repositoryInterfaceTemplate);
     }
 
     /**
@@ -119,15 +136,21 @@ class CrudGenerator extends Command
      */
     protected function eloquentRepository($name)
     {
+        $nameClass=ucwords($name);
+
         $eloquentRepositoryTemplate=str_replace(
-            ['{{modelName}}'],
-            [$name],
+            [
+                '{{modelName}}',
+                '{{modelNamePluralLowerCase}}',
+            ],
+            [
+                $nameClass,
+                $name
+            ],
             $this->getStub('eloquentRepository')
         );
-        if ( !file_exists($path=app_path("Modules/{$name}/Http/Repositories/$name")) )
-            $this->getMakeDirectory($path);
-
-        file_put_contents(app_path("Modules/{$name}/Http/Repositories/$name/eloquent{$name}Repository.php"), $eloquentRepositoryTemplate);
+        $this->FilePutContents("Modules/{$name}/Http/Repositories",
+            "Modules/{$name}/Http/Repositories/Eloquent{$name}Repository.php", $eloquentRepositoryTemplate);
     }
 
     /**
@@ -140,11 +163,8 @@ class CrudGenerator extends Command
             [$name],
             $this->getStub('Request')
         );
-
-        if ( !file_exists($path=app_path("Modules/{$name}/Http/Requests")) )
-            $this->getMakeDirectory($path);
-
-        file_put_contents(app_path("Modules/{$name}/Http/Requests/{$name}Request.php"), $requestTemplate);
+        $this->FilePutContents("Modules/{$name}/Http/Requests",
+            "Modules/{$name}/Http/Requests/{$name}Request.php", $requestTemplate);
     }
 
     /**
@@ -153,7 +173,8 @@ class CrudGenerator extends Command
      */
     protected function getStub($type)
     {
-        return file_get_contents(base_path("stubs/$type.stub"));
+        return file_get_contents(__DIR__ . "/../stubs/$type.stub");
+
     }
 
     /**
@@ -165,14 +186,132 @@ class CrudGenerator extends Command
     }
 
     /**
-     * @param String $name
+     * @param $name
      */
     protected function route($name)
     {
-        if ( !file_exists($path=base_path("Modules/{$name}/routes")) )
-            $this->getMakeDirectory($path);
+        $nameClass=ucwords($name);
+        $routeTemplate=str_replace(
+            [
+                '{{modelName}}',
+                '{{modelNamePluralLowerCase}}',
+            ],
+            [
+                $nameClass,
+                $name
+            ],
+            $this->getStub('routes')
+        );
 
-        File::append(base_path("Modules/{$name}/routes/api.php"), 'Route::resource(\'' . Str::plural(strtolower($name)) . "', '{$name}Controller');");
+        $this->FilePutContents("Modules/{$name}/routes",
+            "Modules/{$name}/routes/api.php", $routeTemplate);
+
+
+    }
+
+    /**
+     * @param $name
+     */
+    protected function AppServiceProvider($name)
+    {
+        $nameClass=ucwords($name);
+
+        $ProviderTemplate=str_replace(
+            [
+                '{{modelName}}',
+                '{{modelNamePluralLowerCase}}',
+            ],
+            [
+                $nameClass,
+                $name
+            ],
+            $this->getStub('AppServiceProvider')
+        );
+
+        $this->FilePutContents("Modules/{$name}/Providers", "Modules/{$name}/Providers/{$nameClass}AppServiceProvider.php", $ProviderTemplate);
+
+        $this->AddServiceProviders($name, "Providers/{$nameClass}AppServiceProvider");
+    }
+
+
+    /**
+     * @param $name
+     */
+    protected function providers($name)
+    {
+
+        $nameClass=ucwords($name);
+
+        $ProviderTemplate=str_replace(
+            [
+                '{{modelName}}',
+                '{{modelNamePluralLowerCase}}',
+            ],
+            [
+                $nameClass,
+                $name
+            ],
+            $this->getStub('Providers')
+        );
+
+        $this->FilePutContents("Modules/{$name}/Providers",
+            "Modules/{$name}/Providers/{$nameClass}RouteServiceProvider.php", $ProviderTemplate);
+
+        $this->AddServiceProviders($name, "Providers/{$nameClass}RouteServiceProvider");
+
+    }
+
+    protected function BaseRepository($name)
+    {
+
+        $BaseRepository=str_replace(
+            [
+                '{{modelName}}',
+            ],
+            [
+                $name
+            ],
+            $this->getStub('BaseRepository')
+        );
+        $this->FilePutContents("Modules/bases", "Modules/bases/BaseRepository.php", $BaseRepository);
+
+    }
+
+    protected function BaseServiceProvider($name)
+    {
+
+        $BaseServiceTemplate=str_replace(
+            [
+                '{{modelName}}',
+            ],
+            [
+                $name
+            ],
+            $this->getStub('BaseServiceProvider')
+        );
+        $this->FilePutContents("Modules/bases",
+            "Modules/bases/BaseServiceProvider.php", $BaseServiceTemplate);
+
+
+        $this->AddServiceProviders('bases', 'BaseServiceProvider');
+
+    }
+
+    protected function BaseRepositoryInterface($name)
+    {
+
+        $BaseRepositoryInterface=str_replace(
+            [
+                '{{modelName}}',
+            ],
+            [
+                $name
+            ],
+            $this->getStub('BaseRepositoryInterface')
+        );
+        $this->FilePutContents("Modules/bases",
+            "Modules/bases/BaseRepositoryInterface.php", $BaseRepositoryInterface);
+
     }
 
     /**
@@ -185,7 +324,6 @@ class CrudGenerator extends Command
         if ( file_exists($path=app_path("Modules/{$name}")) ) {
             exit("This name already exists");
         }
-
     }
 
     /**
@@ -199,5 +337,28 @@ class CrudGenerator extends Command
             $this->getMakeDirectory($path);
 
         file_put_contents(app_path($pathName), $controllerTemplate);
+    }
+
+    /**
+     * Register service provider in config/app.php
+     * @param $name
+     * @param $paths
+     */
+    protected function AddServiceProviders($name, $paths)
+    {
+
+        $filename=base_path() . '/config/app.php'; // the file to change
+        $search='
+        /*
+        * Application Service Providers...
+        */';
+
+        $replace='
+        /*
+        * Application Service Providers...
+        */' . PHP_EOL . str_replace("/", '\\', "/App/Modules/{$name}/{$paths}::class,");
+
+        file_put_contents($filename, str_replace($search, $replace, file_get_contents($filename)));
+
     }
 }

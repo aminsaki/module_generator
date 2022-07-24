@@ -1,0 +1,7 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use \App\Modules\{{modelNamePluralLowerCase}}\Http\Controllers as Controller;
+
+Route::resource('{{modelName}}', Controller\{{modelName}}Controller::class);
