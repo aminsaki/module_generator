@@ -1,4 +1,4 @@
-# Laravel mobile auth with password and otp
+# Generate modules Laravel
 Generate modules operations With Repositoriy Design Pattern 
 
 ## installation 
