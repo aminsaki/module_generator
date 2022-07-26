@@ -47,7 +47,6 @@ trait TraitHelp
         file_put_contents(app_path($pathName), $controllerTemplate);
     }
 
-
     /**
      * delete  service provider in config/app.php
      * @param $name
@@ -55,14 +54,13 @@ trait TraitHelp
      */
     protected function DeleteServiceProviders($name)
     {
-//        $filename=base_path('config/app.php'); // the file to change
-//        $nameClass=ucwords($name);
-//        $name=['RouteServiceProvider', 'AminAppServiceProvider'];
-//        $replace=" ";
-//        for($i=0; $i <= count($name); $i++) {
-//            $search=str_replace("/", '\\', "/App/Modules/{$name}/Providers/{$nameClass}{$name[$i]}::class,");
-//            file_put_contents($filename, str_replace($search, $replace, file_get_contents($filename)));
-//        }
+        $filename=base_path('config/app.php'); // the file to change
+        $nameClass=ucwords($name);
+
+        $replace=" ";
+        $search=str_replace("/", '\\', "/App/Modules/{$name}/Providers/{$nameClass}AppServiceProvider::class,");
+
+        file_put_contents($filename, str_replace($search, $replace, file_get_contents($filename)));
     }
 
     /**

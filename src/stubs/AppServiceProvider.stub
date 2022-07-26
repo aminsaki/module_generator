@@ -2,8 +2,10 @@
 
 namespace App\Modules\{{modelNamePluralLowerCase}}\Providers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-
 use App\Modules\{{modelNamePluralLowerCase}}\Http\Repositories\{{modelName}}RepositoryInterface;
 use App\Modules\{{modelNamePluralLowerCase}}\Http\Repositories\Eloquent{{modelName}}Repository;
 
@@ -14,10 +16,11 @@ class {{modelName}}AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
+    protected $namespace = 'app/Modules/{{modelNamePluralLowerCase}}';
+
     public function register()
     {
-        $this->app->bind({{modelName}}RepositoryInterface::class , Eloquent{{modelName}}Repository::class);
-
+        $this->app->singleton({{modelName}}RepositoryInterface::class , Eloquent{{modelName}}Repository::class);
     }
 
     /**
@@ -27,11 +30,31 @@ class {{modelName}}AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-     $this->getLoadMigrationsFrom();
+        $this->getLoadMigrationsFrom();
+        $this->getRoutes();
     }
 
     public function getLoadMigrationsFrom()
     {
         $this->loadMigrationsFrom(base_path('app/Modules/{{modelName}}/database/migrations'));
+    }
+
+    public function getRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+      ->group(base_path('app/Modules/{{modelNamePluralLowerCase}}/routes/api.php'));
+
+    }
+    /**
+     * Configure the rate limiters for the application.
+     *
+     * @return void
+     */
+    protected function configureRateLimiting()
+    {
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+        });
     }
 }

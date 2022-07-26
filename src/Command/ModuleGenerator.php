@@ -4,11 +4,14 @@ namespace Holoo\ModuleGenerator\Command;
 
 use Holoo\ModuleGenerator\Traits\TraitHelp;
 use Holoo\ModuleGenerator\Traits\TraitMethod;
+use Holoo\ModuleGenerator\Traits\TraitProvider;
+use Holoo\ModuleGenerator\Traits\TraitRepository;
+use Holoo\ModuleGenerator\Traits\TraitsBase;
 use Illuminate\Console\Command;
 
 class ModuleGenerator extends Command
 {
-    use TraitHelp, TraitMethod;
+    use TraitHelp, TraitMethod, TraitsBase, TraitRepository, TraitProvider;
 
     protected $signature='modules:generate
         {name : Class (singular) for example User}';
@@ -32,23 +35,9 @@ class ModuleGenerator extends Command
         $this->eloquentRepository($name);
         $this->request($name);
         $this->route($name);
-        $this->providers($name);
         $this->ResourceCollection($name);
         $this->AppServiceProvider($name);
         $this->bases($name);
-
-    }
-
-    /**
-     * @param  $name
-     */
-    protected function bases( $name)
-    {
-        if ( !file_exists($path=app_path("Modules/bases")) ) {
-            $this->BaseServiceProvider($name);
-            $this->BaseRepositoryInterface($name);
-            $this->BaseRepository($name);
-        }
     }
 
 
