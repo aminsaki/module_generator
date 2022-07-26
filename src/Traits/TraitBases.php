@@ -4,7 +4,7 @@
 namespace Holoo\ModuleGenerator\Traits;
 
 
-trait TraitsBase
+trait TraitBases
 {
 
     /**

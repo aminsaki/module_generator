@@ -33,11 +33,11 @@ class ModuleDelete extends Command
      */
     protected function fileDelete($name)
     {
-        if(!file_exists($path=app_path("Modules/{$name}")))
+        if ( !file_exists($path=app_path("Modules/{$name}")) )
             exit("This module does not exist");
 
-      if(file_exists($path=app_path("Modules/{$name}")) == "bases")
-             exit("It is not possible to delete this module");
+        if ( file_exists($path=app_path("Modules/{$name}")) === "bases" )
+            exit("It is not possible to delete this module");
 
         File::deleteDirectory("app/Modules/{$name}");
         $this->DeleteServiceProviders($name);

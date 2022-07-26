@@ -6,12 +6,12 @@ use Holoo\ModuleGenerator\Traits\TraitHelp;
 use Holoo\ModuleGenerator\Traits\TraitMethod;
 use Holoo\ModuleGenerator\Traits\TraitProvider;
 use Holoo\ModuleGenerator\Traits\TraitRepository;
-use Holoo\ModuleGenerator\Traits\TraitsBase;
+use Holoo\ModuleGenerator\Traits\TraitBases;
 use Illuminate\Console\Command;
 
 class ModuleGenerator extends Command
 {
-    use TraitHelp, TraitMethod, TraitsBase, TraitRepository, TraitProvider;
+    use TraitHelp, TraitMethod, TraitBases, TraitRepository, TraitProvider;
 
     protected $signature='modules:generate
         {name : Class (singular) for example User}';
