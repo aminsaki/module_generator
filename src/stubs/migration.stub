@@ -13,7 +13,7 @@ class Create{{modelName}}Table extends Migration
      */
     public function up()
     {
-       Schema::create('{{modelNamePluralLowerCase}}', function (Blueprint $table) {
+       Schema::create('{{modelNameBig}}', function (Blueprint $table) {
             $table->unsignedBigInteger('id');
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class Create{{modelName}}Table extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('{{modelNamePluralLowerCase}}');
+        Schema::dropIfExists('{{modelNameBig}}');
     }
 }

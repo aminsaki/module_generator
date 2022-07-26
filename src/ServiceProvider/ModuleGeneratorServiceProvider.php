@@ -1,9 +1,8 @@
 <?php
 
 namespace Holoo\ModuleGenerator\ServiceProvider;
-
-use Holoo\ModuleGenerator\Command\BaseRepositories;
-use Holoo\ModuleGenerator\Command\CrudGenerator;
+use Holoo\ModuleGenerator\Command\ModuleDelete;
+use Holoo\ModuleGenerator\Command\ModuleGenerator;
 use Illuminate\Support\ServiceProvider;
 
 class ModuleGeneratorServiceProvider extends  ServiceProvider
@@ -26,7 +25,8 @@ class ModuleGeneratorServiceProvider extends  ServiceProvider
     {
         if(app()->runningInConsole()) {
             $this->commands([
-                CrudGenerator::class,
+                ModuleDelete::class,
+                ModuleGenerator::class
             ]);
         }
     }

@@ -16,23 +16,23 @@ class {{modelName}}Controller extends Controller
 
     public function index()
     {
-        ${{modelNamePluralLowerCase}} =$this->{{modelName}}Repository->getAll();
+           $result  =$this->{{modelName}}Repository->getAll();
 
-        return response()->json(${{modelNamePluralLowerCase}});
+        return response()->json($result);
     }
 
     public function store({{modelName}}Request $request)
     {
-        ${{modelNameSingularLowerCase}} = $this->{{modelName}}Repository->create($request->all());
+       $result = $this->{{modelName}}Repository->create($request->all());
 
-        return response()->json(${{modelNameSingularLowerCase}}, 201);
+        return response()->json($result, 201);
     }
 
     public function show($id)
     {
-        ${{modelNameSingularLowerCase}} = $this->{{modelName}}Repository->getById($id);
+        $result = $this->{{modelName}}Repository->getById($id);
 
-        return response()->json(${{modelNameSingularLowerCase}});
+        return response()->json($result);
     }
 
     public function update({{modelName}}Request $request)

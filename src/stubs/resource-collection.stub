@@ -1,13 +1,13 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Modules\{{modelNamePluralLowerCase}}\Http\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class {{ class }} extends ResourceCollection
+class {{modelName}}Resources extends JsonResource
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
@@ -17,3 +17,4 @@ class {{ class }} extends ResourceCollection
         return parent::toArray($request);
     }
 }
+
