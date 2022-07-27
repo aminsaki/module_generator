@@ -49,7 +49,10 @@ trait TraitHelp{
         file_put_contents($filename, str_replace($search, $replace, file_get_contents($filename)));
     }
 
-
+    /**
+     * * delete   Middleware in config/app.php
+     * @param $name
+     */
     public  function DeleteMiddleware($name)
     {
         $nameClass=ucwords($name);
