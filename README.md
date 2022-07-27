@@ -24,21 +24,22 @@ Generate modules operations With Repositoriy Design Pattern
  ),
  ...
  
-#run create module  
+## run create module  
 
-///Use the following command to create the module    
+// Use the following command to create the module    
 
 // Enter the name of the module you want to create instead of the name character
 
 php artisan modules:generate {name} 
 
+-------------------------------------
 
 
-#run delete module  
+## run delete module  
 
-//Use the following command to remove a module
+// Use the following command to remove a module
 
-//// Enter the name of the module you want to create instead of the name character
+// Enter the name of the module you want to create instead of the name character
 
 php artisan  modules:delete {name}
 
