@@ -34,6 +34,7 @@ class ModuleGenerator extends Command
         lib\RepositoryGenerator::repositoryInterface($name);
         lib\RepositoryGenerator::eloquentRepository($name);
         lib\ProviderGenerator::AppServiceProvider($name);
+        lib\MiddlewareGenerator::middleware($name);
         lib\BaseGenerator::bases($name);
     }
 

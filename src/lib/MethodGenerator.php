@@ -66,4 +66,6 @@ class  MethodGenerator extends AbstractGenerator
             "Modules/{$name}/Http/Resources/{$nameClass}Resources.php", self::makeTemplate($name, 'resource-collection'));
     }
 
+
+
 }

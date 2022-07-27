@@ -84,4 +84,18 @@ abstract class AbstractGenerator
         );
         return $template;
     }
+
+    public static function AddMiddleware($name)
+    {
+        $nameClass=ucwords($name);
+        $filename=base_path('app/http/Kernel.php'); // the file to change
+
+        $search="\App\Http\Middleware\Authenticate::class,";
+
+        $replace="\App\Http\Middleware\Authenticate::class," . PHP_EOL .
+            "'{$name}'=>" . str_replace("/", '\\', "/App/Modules/{$name}/Http/Middleware/{$nameClass}::class,");
+
+        file_put_contents($filename, str_replace($search, $replace, file_get_contents($filename)));
+
+    }
 }

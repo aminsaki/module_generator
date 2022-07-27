@@ -14,6 +14,19 @@ class ProviderGenerator extends  AbstractGenerator
     {
         $nameClass=ucwords($name);
         self::FilePutContents("Modules/{$name}/Providers", "Modules/{$name}/Providers/{$nameClass}AppServiceProvider.php", self::makeTemplate($name, 'AppServiceProvider'));
+
         self::AddServiceProviders($name, "Providers/{$nameClass}AppServiceProvider");
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+

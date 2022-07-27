@@ -18,7 +18,9 @@ class ModuleGeneratorServiceProvider extends ServiceProvider
         $this->app->bind('methodgenerator', lib\MethodGenerator::class);
         $this->app->bind('repositorygenerator', lib\RepositoryGenerator::class);
         $this->app->bind('providergenerator', lib\ProviderGenerator::class);
+        $this->app->bind('middleware', lib\MiddlewareGenerator::class);
         $this->app->bind('base', lib\BaseGenerator::class);
+
     }
 
     /**

@@ -1,11 +1,11 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Modules\{{modelNamePluralLowerCase}}\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 
-class {{ class }}
+class {{modelName}}
 {
     /**
      * Handle an incoming request.
