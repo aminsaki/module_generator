@@ -33,7 +33,8 @@ Generate modules operations With Repositoriy Design Pattern
 php artisan modules:generate {name} 
 
 
-#run create module  
+
+#run delete module  
 
 //Use the following command to remove a module
 
