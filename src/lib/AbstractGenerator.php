@@ -45,7 +45,7 @@ abstract class AbstractGenerator
      * @param $name
      * @param $paths
      */
-    public function AddServiceProviders($name, $paths)
+    public static function  AddServiceProviders($name, $paths)
     {
         $filename=base_path() . '/config/app.php'; // the file to change
         $search='
@@ -98,4 +98,6 @@ abstract class AbstractGenerator
         file_put_contents($filename, str_replace($search, $replace, file_get_contents($filename)));
 
     }
+
+
 }
