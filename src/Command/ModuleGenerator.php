@@ -2,16 +2,13 @@
 
 namespace Holoo\ModuleGenerator\Command;
 
+use Holoo\ModuleGenerator\lib as lib;
 use Holoo\ModuleGenerator\Traits\TraitHelp;
-use Holoo\ModuleGenerator\Traits\TraitMethod;
-use Holoo\ModuleGenerator\Traits\TraitProvider;
-use Holoo\ModuleGenerator\Traits\TraitRepository;
-use Holoo\ModuleGenerator\Traits\TraitBases;
 use Illuminate\Console\Command;
 
 class ModuleGenerator extends Command
 {
-    use TraitHelp, TraitMethod, TraitBases, TraitRepository, TraitProvider;
+    use TraitHelp;
 
     protected $signature='modules:generate
         {name : Class (singular) for example User}';
@@ -28,16 +25,16 @@ class ModuleGenerator extends Command
     {
         $name=$this->argument('name');
         $this->checkModule($name);
-        $this->migration($name);
-        $this->controller($name);
-        $this->model($name);
-        $this->repositoryInterface($name);
-        $this->eloquentRepository($name);
-        $this->request($name);
-        $this->route($name);
-        $this->ResourceCollection($name);
-        $this->AppServiceProvider($name);
-        $this->bases($name);
+        lib\MethodGenerator::migration($name);
+        lib\MethodGenerator::controller($name);
+        lib\MethodGenerator::model($name);
+        lib\MethodGenerator::request($name);
+        lib\MethodGenerator::route($name);
+        lib\MethodGenerator::ResourceCollection($name);
+        lib\RepositoryGenerator::repositoryInterface($name);
+        lib\RepositoryGenerator::eloquentRepository($name);
+        lib\ProviderGenerator::AppServiceProvider($name);
+        lib\BaseGenerator::bases($name);
     }
 
 

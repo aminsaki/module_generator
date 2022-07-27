@@ -1,8 +1,23 @@
 # Generate modules Laravel
 Generate modules operations With Repositoriy Design Pattern 
 
-## installation 
- composer require holoo/module_generator 
+## installation  
+
+#  Step one 
+ composer require holoo/module_generator  
+ 
+ Add the \Holoo\ModuleGenerator\ServiceProvider\ModuleGeneratorServiceProvider::class to config/app.php (comment out built-in ModuleGeneratorServiceProvider):
+
+
+#  Step Two  
+ ...
+ 'providers' => array(
+     ...
+     // '\Holoo\ModuleGenerator\ServiceProvider\ModuleGeneratorServiceProvider::class',
+     'Very\Redis\RedisServiceProvider',
+     ...
+ ),
+ ...
  
 #run create module  
 ///Use the following command to create the module    

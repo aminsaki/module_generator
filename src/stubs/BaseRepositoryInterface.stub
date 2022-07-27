@@ -7,13 +7,55 @@ use Illuminate\Support\Facades\Request;
 
 interface BaseRepositoryInterface
 {
+    /**
+     * @return JsonResponse
+     */
     public function all(): JsonResponse;
+
+    /**
+     * @param Request $request
+     * @param int|int $limit
+     * @return JsonResponse
+     */
     public function paginate(Request $request, int $limit = 15): JsonResponse;
+
+    /**
+     * @param $col
+     * @param $value
+     * @param int|int $limit
+     * @return JsonResponse
+     */
     public function getBy($col, $value, int $limit = 15): JsonResponse;
+
+    /**
+     * @param array $data
+     * @return JsonResponse
+     */
     public function create(array $data): JsonResponse;
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
     public function find(int $id): JsonResponse;
+
+    /**
+     * @param int $id
+     * @param array $data
+     * @return JsonResponse
+     */
     public function update(int $id, array $data): JsonResponse;
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
     public function delete(int $id): JsonResponse;
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
 
     public function exists(int $id): JsonResponse;
 }
