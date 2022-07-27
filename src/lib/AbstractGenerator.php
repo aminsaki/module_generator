@@ -98,4 +98,6 @@ abstract class AbstractGenerator
         file_put_contents($filename, str_replace($search, $replace, file_get_contents($filename)));
 
     }
+
+
 }

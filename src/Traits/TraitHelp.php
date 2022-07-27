@@ -30,6 +30,7 @@ trait TraitHelp{
         File::deleteDirectory("app/Modules/{$name}");
 
         $this->DeleteServiceProviders($name);
+        $this->DeleteMiddleware($name);
 
     }
     /**
@@ -46,5 +47,18 @@ trait TraitHelp{
         $search=str_replace("/", '\\', "/App/Modules/{$name}/Providers/{$nameClass}AppServiceProvider::class,");
 
         file_put_contents($filename, str_replace($search, $replace, file_get_contents($filename)));
+    }
+
+
+    public  function DeleteMiddleware($name)
+    {
+        $nameClass=ucwords($name);
+        $filename=base_path('app/http/Kernel.php'); // the file to change
+
+        $replace= "";
+        $search="'{$name}'=>" . str_replace("/", '\\', "/App/Modules/{$name}/Http/Middleware/{$nameClass}::class,");
+
+        file_put_contents($filename, str_replace($search, $replace, file_get_contents($filename)));
+
     }
 }
