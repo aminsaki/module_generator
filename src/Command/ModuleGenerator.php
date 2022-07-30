@@ -36,6 +36,7 @@ class ModuleGenerator extends Command
         lib\ProviderGenerator::AppServiceProvider($name);
         lib\MiddlewareGenerator::middleware($name);
         lib\BaseGenerator::bases($name);
+        lib\MethodGenerator::config($name);
     }
 
 

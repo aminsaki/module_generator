@@ -21,6 +21,8 @@ class {{modelName}}AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton({{modelName}}RepositoryInterface::class , Eloquent{{modelName}}Repository::class);
+
+        $this->getMergeConfigFrom();
     }
 
     /**
@@ -32,6 +34,12 @@ class {{modelName}}AppServiceProvider extends ServiceProvider
     {
         $this->getLoadMigrationsFrom();
         $this->getRoutes();
+    }
+
+    public function getMergeConfigFrom()
+    {
+       if (file_exists($path =base_path('app/modules/{{modelName}}/config/{{modelName}}.php')))
+            $this->mergeConfigFrom(base_path('app/modules/{{modelName}}/config/{{modelName}}.php'), '{{modelName}}');
     }
 
     public function getLoadMigrationsFrom()
