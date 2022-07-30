@@ -65,7 +65,14 @@ class  MethodGenerator extends AbstractGenerator
        self::FilePutContents("Modules/{$name}/Http/Resources",
             "Modules/{$name}/Http/Resources/{$nameClass}Resources.php", self::makeTemplate($name, 'resource-collection'));
     }
-
+    /**
+     * @param string $name
+     */
+    public static function config($name)
+    {
+       self::FilePutContents("Modules/{$name}/config",
+        "Modules/{$name}/config/{$name}.php", self::makeTemplate($name, 'Config'));
+    }
 
 
 }

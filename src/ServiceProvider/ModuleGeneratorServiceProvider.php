@@ -15,12 +15,7 @@ class ModuleGeneratorServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('methodgenerator', lib\MethodGenerator::class);
-        $this->app->bind('repositorygenerator', lib\RepositoryGenerator::class);
-        $this->app->bind('providergenerator', lib\ProviderGenerator::class);
-        $this->app->bind('middleware', lib\MiddlewareGenerator::class);
-        $this->app->bind('base', lib\BaseGenerator::class);
-
+        $this->SetClassFaced();
     }
 
     /**
@@ -36,6 +31,15 @@ class ModuleGeneratorServiceProvider extends ServiceProvider
                 command\ModuleGenerator::class
             ]);
         }
+    }
+
+    protected function SetClassFaced()
+    {
+        $this->app->bind('methodgenerator', lib\MethodGenerator::class);
+        $this->app->bind('repositorygenerator', lib\RepositoryGenerator::class);
+        $this->app->bind('providergenerator', lib\ProviderGenerator::class);
+        $this->app->bind('middleware', lib\MiddlewareGenerator::class);
+        $this->app->bind('base', lib\BaseGenerator::class);
     }
 
 }
