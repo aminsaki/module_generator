@@ -48,15 +48,11 @@ abstract class AbstractGenerator
     public static function  AddServiceProviders($name, $paths)
     {
         $filename=base_path() . '/config/app.php'; // the file to change
-        $search='
-        /*
-        * Application Service Providers...
-        */';
 
-        $replace='
-        /*
-        * Application Service Providers...
-        */' . PHP_EOL . str_replace("/", '\\', "/App/Modules/{$name}/{$paths}::class,");
+        $search="App\Providers\RouteServiceProvider::class,";
+
+        $replace="App\Providers\RouteServiceProvider::class," . PHP_EOL . str_replace("/", '\\', "/App/Modules/{$name}/{$paths}::class,");
+
 
         file_put_contents($filename, str_replace($search, $replace, file_get_contents($filename)));
     }
