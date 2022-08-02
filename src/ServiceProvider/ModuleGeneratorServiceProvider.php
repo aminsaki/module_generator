@@ -25,21 +25,29 @@ class ModuleGeneratorServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ( app()->runningInConsole() ) {
-            $this->commands([
-                command\ModuleDelete::class,
-                command\ModuleGenerator::class
-            ]);
-        }
+        $this->SetCommand();
     }
 
+    /**
+     *   This method is for faced list
+     */
     protected function SetClassFaced()
     {
-        $this->app->bind('methodgenerator', lib\MethodGenerator::class);
-        $this->app->bind('repositorygenerator', lib\RepositoryGenerator::class);
-        $this->app->bind('providergenerator', lib\ProviderGenerator::class);
-        $this->app->bind('middleware', lib\MiddlewareGenerator::class);
-        $this->app->bind('base', lib\BaseGenerator::class);
+        $this->app->singleton('methodgenerator', lib\MethodGenerator::class);
+        $this->app->singleton('repositorygenerator', lib\RepositoryGenerator::class);
+        $this->app->singleton('providergenerator', lib\ProviderGenerator::class);
+        $this->app->singleton('middleware', lib\MiddlewareGenerator::class);
+        $this->app->singleton('base', lib\BaseGenerator::class);
+    }
+    /**
+     *   This method is for Command list
+     */
+    protected function SetCommand()
+    {
+        if ( app()->runningInConsole() ) $this->commands([
+            command\ModuleDelete::class,
+            command\ModuleGenerator::class
+        ]);
     }
 
 }
