@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\File;
 
 trait TraitHelp{
 
-
     /**
      * @param $name
      */
@@ -38,7 +37,7 @@ trait TraitHelp{
      * @param $name
      * @param $paths
      */
-    public function DeleteServiceProviders($name)
+    private function DeleteServiceProviders($name)
     {
         $filename=base_path('config/app.php'); // the file to change
         $nameClass=ucwords($name);
@@ -53,7 +52,7 @@ trait TraitHelp{
      * * delete   Middleware in config/app.php
      * @param $name
      */
-    public  function DeleteMiddleware($name)
+    private  function DeleteMiddleware($name)
     {
         $nameClass=ucwords($name);
         $filename=base_path('app/http/Kernel.php'); // the file to change
@@ -62,6 +61,5 @@ trait TraitHelp{
         $search="'{$name}'=>" . str_replace("/", '\\', "/App/Modules/{$name}/Http/Middleware/{$nameClass}::class,");
 
         file_put_contents($filename, str_replace($search, $replace, file_get_contents($filename)));
-
     }
 }
